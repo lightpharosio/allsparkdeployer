@@ -6,23 +6,24 @@ Allspark is a Docker based developer toolbox fully automated in term of configur
 
 ## About Allspark
 
-Allspark has been initiated and created inside the actinium organization. As allspark has a new sponsor we have forked the original actinium\allspark to the new organisation sponsor lightpharos\allspark-neo .
+Allspark is a devops pipeline including forge components (Gitlab, Jenkins, SonarQube...). Managing all these components could be a brain teaser. Allspark has the objectives to reduce forge integration, management complexity, improve hosting agnosticity and providing multi tenancy approach.  
 
-actinium\allspark and lightpharosio\allspark-neo have the same objectives to provide a multi hosting DevOPS pipeline platform.
-Neo provides an architecture evolution of the allspark product. Indeed actinium\allspark provides in one box a full stack contenerized. This solution is relevant for testing the platform automation and what the service can provide in one VM.
-However we aim with neo to provide a better scalability by splitting the stack in different VM using for instace cloud automation script based on terraform.
-Finally in a specific release of Neo we also aim to increase the level of agnosticity and scalability by using K8s docker orchestration system.
+Allspark targets 3 types of implementation accross 3 subproducts:
+1. OneBox (**Available Under stabilization**) ==> For Small Businesses
+2. ElasticSparks (**not initiated**) ==> The ideal choice for IaaS hosting services.
+3. Kubsparks (**not initiated**) ==> An implementation compatible with Kubernete.
 
-## actinium\allspark
+Allspark has been initiated and created inside the actinium organization. As the "core" dev team navigate to new horizon the project moved to a new organization. However we thanks them #Xide and #Guiadco for their contribution and passion. 
 
-allspark actiniumio is now deprecated. Everything moved officialy in lightpharosio .
+Allspark is now part of lightpharosio. Long live to allspark ! :)
+
 
 ## Current Repository organization
 
 1. docs ==> Designs, User guides... documentation around the project
-2. onebox ==> Ex actiniumio\allspark product (**Under stabilization**)
-3. elasticsparks ==> Allspark IaaS product (**not initiated**)
-4. Kubsparks ==> Allspark Kubernete product (**not initiated**)
+2. onebox ==> Ex actiniumio\allspark product 
+3. elasticsparks ==> Allspark IaaS product 
+4. Kubsparks ==> Allspark Kubernete product 
 
 ## Launching Status
 
