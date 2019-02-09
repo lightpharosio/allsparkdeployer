@@ -1,0 +1,47 @@
+---
+
+- name: Importing admin password
+  shell: "cat {{ allspark_root_directory}}/data/secrets/admin_password.txt"
+  register: admin_password
+  changed_when: False
+
+- name: Creating users volume
+  docker_volume:
+    name: "allspark_{{ item }}"
+  with_items:
+    - ldap_data
+    - ldap_config
+  when: allspark_ldap.enabled
+
+- name: Starting LDAP server
+  docker_container:
+    name: ldap_backend
+    hostname: ldap_backend
+    image: "{{ allspark_ldap.image }}"
+    state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    networks:
+      - name: allspark
+    env:
+      #LDAP_ADMIN_PASSWORD: "{{ admin_password.stdout }}"
+      LDAP_DOMAIN: "ldap_backend"
+      LDAP_ORGANISATION: "{{ allspark_ldap.organization }}"
+    volumes:
+      - allspark_ldap_data:/var/lib/ldap
+      - allspark_ldap_config:/etc/ldap
+    restart_policy: always
+
+- name: Starting LDAP web management dashboard
+  docker_container:
+    name: ldap_management
+    image: "{{ allspark_ldap.management_image }}"
+    state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    networks:
+      - name: allspark
+    env:
+      PHPLDAPADMIN_LDAP_HOSTS: ldap_backend
+      PHPLDAPADMIN_HTTPS: false
+    labels:
+      "traefik.backend": "ldap_management"
+      "traefik.frontend.rule": "Host:users.{{ allspark_root_domain }}"
+      "traefik.enable": "true"
+    restart_policy: always
