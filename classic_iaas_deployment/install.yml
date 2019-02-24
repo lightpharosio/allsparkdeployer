@@ -1,0 +1,16 @@
+- name: Allspark installer
+  hosts: all
+  roles:
+    - system
+    - local_datas
+    - pip
+    - { role: download, tags: [ "download", "prepare" ] }
+    - network
+    - haproxy
+    - registry
+    - ldap
+    - utils
+    - monitoring
+    - gitlab
+    - jenkins
+    - sonarqube
