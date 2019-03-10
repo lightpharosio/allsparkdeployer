@@ -20,10 +20,10 @@ Allspark is now part of lightpharosio. Long live to allspark ! :)
 
 ## Current Repository organization
 
-1. docs ==> Designs, User guides... documentation around the project
-2. classic_iaas_deployment 
-    2.1 onebox ==> Ex actiniumio\allspark product 
-    2.2 elasticsparks ==> Allspark IaaS product 
+1. docs ==> Designs, User guides... documentation concerning the project
+2. iaas 
+    1. onebox ==> Ex actiniumio\allspark product 
+    2. elasticsparks ==> Allspark IaaS product 
 3. Kubsparks ==> Allspark Kubernete product 
 
 ## Launching Status
