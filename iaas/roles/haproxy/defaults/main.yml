@@ -4,19 +4,18 @@ haproxy_http_port: 80
 haproxy_https_port: 443
 
 haproxy_endpoints:
-  -
     # Runtime name of the container
     # (defined by the `docker_container` module `name` parameter)
-    name: "portainer"
+
     # The host on which the service will be exposed
-    host: "infra.{{ allspark_root_domain }}"
+
     # An alias on the enabled feature toggle
-    enabled: "{{ allspark_portainer.enabled }}"
+
     # List of object with the following properties:
     # - mode: http|tcp
     # - port: the listening container port to expose
     # - exposed_port: The port exposed on the host machine (only for tcp mode)
-    backends:
+
       # # Sample HTTP backend
       # - port: 8080
       #   mode: http
@@ -24,8 +23,7 @@ haproxy_endpoints:
       # - port: 6578
       #   mode: tcp
       #   exposed_port: 6578
-      - port: 9000
-        mode: http
+    
 
   - name: prometheus
     host: "metrics.{{ allspark_root_domain }}"
