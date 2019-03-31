@@ -13,6 +13,7 @@
     name: portainer
     image: "{{ downloads.portainer.image }}:{{ downloads.portainer.tag }}"
     state: "{{ allspark_portainer.enabled and 'started' or 'absent'}}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_portainer_data:/data"
       - "{{ allspark_root_directory }}/data/secrets/portainer_password.txt:/data/secrets/portainer-pass"
@@ -38,6 +39,7 @@
     name: rocketchat_database
     image: "{{ downloads.rocketchat_mongodb.image }}:{{ downloads.rocketchat_mongodb.tag }}"
     state: "{{ allspark_rocketchat.enabled and 'started' or 'absent'}}"
+    dns_servers: "{{allspark_dns_server}}"
     purge_networks: true
     networks:
       - name: allspark
@@ -55,6 +57,7 @@
     env:
       MONGO_URL: mongodb://rocketchat_database/rocketchat
       ROOT_URL: "http://chat.{{ allspark_root_domain }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_rocketchat_avatars:/app/uploads"
     purge_networks: true
@@ -190,6 +193,7 @@
     user: postgres
     networks:
       - name: allspark_mattermost_database
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_mattermost_postgres_data:/var/lib/postgresql/data"
     restart_policy: always
@@ -206,6 +210,7 @@
       MM_PASSWORD: "{{ allspark_admin_password_mattermostdb.stdout }}"
       MM_DBNAME: "mattermostdb"
       DB_HOST: "mattermost_database"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_mattermost_data:/mattermost/data"
       - "allspark_mattermost_logs:/mattermost/logs"

@@ -28,6 +28,7 @@
       LDAP_ADMIN_PASSWORD: "{{ admin_password.stdout }}"
       LDAP_DOMAIN: "ldap_backend"
       LDAP_ORGANISATION: "{{ allspark_ldap.organization }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - allspark_ldap_data:/var/lib/ldap
       - allspark_ldap_config:/etc/ldap
@@ -44,6 +45,7 @@
     env:
       PHPLDAPADMIN_LDAP_HOSTS: ldap_backend
       PHPLDAPADMIN_HTTPS: false
+    dns_servers: "{{allspark_dns_server}}"
     labels:
       "heritage": "allspark"
     restart_policy: always

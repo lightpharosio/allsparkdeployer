@@ -8,6 +8,7 @@
     name: registry
     image: "{{ downloads.registry.image }}:{{ downloads.registry.tag }}"
     state: "{{ allspark_docker_registry.enabled and 'started' or 'absent'}}"
+    dns_servers: "{{allspark_dns_server}}"
     purge_networks: true
     networks:
       - name: allspark

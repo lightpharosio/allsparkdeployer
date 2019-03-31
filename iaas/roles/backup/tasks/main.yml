@@ -66,6 +66,7 @@
   docker_container:
     name: backup
     image: "{{ downloads.volumerize.image }}:{{ downloads.volumerize.tag }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes: >-
       [
       {% for volume in volumes_list.stdout_lines %}
