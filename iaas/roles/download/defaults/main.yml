@@ -1,7 +1,5 @@
 # Images
 gitlab_image: gitlab/gitlab-ce
-rocketchat_image: rocket.chat
-rocketchat_mongodb_image: mongo
 haproxy_image: haproxy
 haproxy_exporter_image: quay.io/prometheus/haproxy-exporter
 grafana_image: grafana/grafana
@@ -24,8 +22,6 @@ registry_image: library/registry
 
 # Tags
 gitlab_tag: latest
-rocketchat_tag: latest
-rocketchat_mongodb_tag: latest
 # Alpine tag is required, because it bundle rsyslogd
 # which allow us to read logs from HAProxy
 haproxy_tag: alpine
@@ -98,14 +94,6 @@ downloads:
     enabled: "{{ allspark_monitoring.enabled }}"
     image: "{{ prometheus_image }}"
     tag: "{{ prometheus_tag }}"
-  rocketchat:
-    enabled: "{{ allspark_rocketchat.enabled }}"
-    image: "{{ rocketchat_image }}"
-    tag: "{{ rocketchat_tag }}"
-  rocketchat_mongodb:
-    enabled: "{{ allspark_rocketchat.enabled }}"
-    image: "{{ rocketchat_mongodb_image }}"
-    tag: "{{ rocketchat_mongodb_tag }}"
   sonarqube:
     enabled: "{{ allspark_sonarqube.enabled }}"
     image: "{{ sonarqube_image }}"
