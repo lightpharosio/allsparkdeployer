@@ -75,13 +75,6 @@ haproxy_endpoints:
     - mode: http
       port: 9000
 
-  - name: rocketchat
-    host: "chat.{{ allspark_root_domain }}"
-    enabled: "{{ allspark_rocketchat.enabled }}"
-    backends:
-    - mode: http
-      port: 3000
-
   - name: mattermost
     enabled: "{{ allspark_mattermost.enabled }}"
     host: "mattermost.{{ allspark_root_domain }}"

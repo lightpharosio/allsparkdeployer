@@ -26,47 +26,6 @@
       "heritage": "allspark"
     restart_policy: always
 
-- name: Docker volumes creation
-  docker_volume:
-    name: "allspark_{{ item }}"
-  with_items:
-    - rocketchat_data
-    - rocketchat_avatars
-  when: allspark_rocketchat.enabled
-
-- name: Setup MongoDB chat service database
-  docker_container:
-    name: rocketchat_database
-    image: "{{ downloads.rocketchat_mongodb.image }}:{{ downloads.rocketchat_mongodb.tag }}"
-    state: "{{ allspark_rocketchat.enabled and 'started' or 'absent'}}"
-    dns_servers: "{{allspark_dns_server}}"
-    purge_networks: true
-    networks:
-      - name: allspark
-    volumes:
-      - "allspark_rocketchat_data:/data/db"
-    labels:
-      "heritage": "allspark"
-    restart_policy: always
-
-- name: Setup RocketChat service
-  docker_container:
-    name: rocketchat
-    image: "{{ downloads.rocketchat.image }}:{{ downloads.rocketchat.tag }}"
-    state: "{{ allspark_rocketchat.enabled and 'started' or 'absent'}}"
-    env:
-      MONGO_URL: mongodb://rocketchat_database/rocketchat
-      ROOT_URL: "http://chat.{{ allspark_root_domain }}"
-    dns_servers: "{{allspark_dns_server}}"
-    volumes:
-      - "allspark_rocketchat_avatars:/app/uploads"
-    purge_networks: true
-    networks:
-      - name: allspark
-    labels:
-      "heritage": "allspark"
-    restart_policy: always
-
 - name: Test admin mattermost db password existence
   stat: path="{{ allspark_root_directory}}/data/secrets/admin_password_mattermostdb.txt"
   register: admin_password_mattermost_file
