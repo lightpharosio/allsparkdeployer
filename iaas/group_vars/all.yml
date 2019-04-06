@@ -6,7 +6,9 @@ allspark_root_directory: /opt/allspark
 allspark_backup_directory: /opt/allspark/backup
 allspark_admin_user: admin
 
-allspark_docker_version: "18.06.0"
+allspark_docker_version: "18.06.03"
+
+allspark_dns_server: "8.8.8.8"
 
 allspark_ldap:
   enabled: false
@@ -36,10 +38,6 @@ allspark_haproxy:
       organisation: myteam
       organizational_unit: myorganizational_unit
 
-
-allspark_rocketchat:
-  enabled: false
-
 allspark_gitlab:
   enabled: false
   with_runner: false
@@ -54,9 +52,6 @@ allspark_sonarqube:
   enabled: false
 
 allspark_mattermost:
-  enabled: true
-
-allspark_portainer:
   enabled: true
 
 allspark_docker_registry:

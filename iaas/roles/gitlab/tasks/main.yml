@@ -78,6 +78,7 @@
     state: "{{ allspark_gitlab.enabled and 'started' or 'absent'}}"
     image: "{{ downloads.gitlab.image }}:{{ downloads.gitlab.tag }}"
     hostname: "gitlab.{{ allspark_root_domain }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_gitlab_data:/var/opt/gitlab"
       - "allspark_gitlab_config:/etc/gitlab"

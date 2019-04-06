@@ -22,6 +22,7 @@
     restart: "{{ config_tpl is changed }}"
     image: "{{ downloads.haproxy.image }}:{{ downloads.haproxy.tag }}"
     entrypoint: "sh -c '/sbin/syslogd -O /proc/1/fd/1 && haproxy -f /etc/haproxy.cfg'"
+    dns_servers: "{{allspark_dns_server}}"
     volumes: >-
       [
         "{{ allspark_root_directory }}/config/haproxy/haproxy.cfg:/etc/haproxy.cfg",
