@@ -23,7 +23,7 @@ haproxy_endpoints:
       # - port: 6578
       #   mode: tcp
       #   exposed_port: 6578
-    
+
 
   - name: prometheus
     host: "metrics.{{ allspark_root_domain }}"
@@ -58,13 +58,6 @@ haproxy_endpoints:
     backends:
     - mode: http
       port: 8080
-
-  - name: ldap_management
-    host: "users.{{ allspark_root_domain }}"
-    enabled: "{{ allspark_ldap.enabled }}"
-    backends:
-    - mode: http
-      port: 80
 
   - name: sonarqube
     host: "sonarqube.{{ allspark_root_domain }}"
