@@ -1,28 +1,3 @@
-- name: Setup CAdvisor for containers monitoring
-  docker_container:
-    name: cadvisor
-    image: "{{ downloads.cadvisor.image }}:{{ downloads.cadvisor.tag }}"
-    state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
-    dns_servers: "{{allspark_dns_server}}"
-    volumes: >-
-      [
-        {%- if (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}
-        {# CentOS/RHEL specific mount point : https://github.com/google/cadvisor/blob/master/docs/running.md#centos-fedora-and-rhel #}
-        "/cgroup:/cgroup:ro",
-        {%- endif -%}
-        "/sys:/sys:ro",
-        "/var/lib/docker/:/var/lib/docker:ro",
-        "/var/run:/var/run:rw",
-        "/:/rootfs:ro"
-      ]
-    purge_networks: true
-    privileged: "{%- if not (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}false{%- else -%}true{%- endif -%}"
-    networks:
-      - name: allspark
-    restart_policy: always
-    labels:
-      "heritage": "allspark"
-
 - name: HAProxy exporter
   docker_container:
     name: haproxy_exporter

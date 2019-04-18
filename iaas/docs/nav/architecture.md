@@ -11,7 +11,6 @@
 |               | Issue tracking                                        |
 | Grafana       | Monitoring                                            |
 | Prometheus    | Metrics scraping / store                              |
-| CAdvisor      | Container metrics                                     |
 | Node exporter | System metrics                                        |
 | Sonarqube     | Continuous Inspection                                 |
 | HAProxy       | Reverse proxy                                         |
