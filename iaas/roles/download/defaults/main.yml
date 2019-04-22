@@ -1,17 +1,11 @@
 # Images
-gitlab_image: gitlab/gitlab-ce
-rocketchat_image: rocket.chat
-rocketchat_mongodb_image: mongo
+gitlab_image: gitlab/gitlab-ee
 haproxy_image: haproxy
 haproxy_exporter_image: quay.io/prometheus/haproxy-exporter
 grafana_image: grafana/grafana
 prometheus_image: prom/prometheus
-cadvisor_image: google/cadvisor
 node_exporter_image: prom/node-exporter
 sonarqube_image: sonarqube
-portainer_image: portainer/portainer
-openldap_image: osixia/openldap
-phpldapadmin_image: osixia/phpldapadmin
 gitlab_runner_image: gitlab/gitlab-runner
 jenkins_image: actiniumio/jenkins
 jenkins_slave_image: actiniumio/jnlp-slave
@@ -24,20 +18,14 @@ registry_image: library/registry
 
 # Tags
 gitlab_tag: latest
-rocketchat_tag: latest
-rocketchat_mongodb_tag: latest
 # Alpine tag is required, because it bundle rsyslogd
 # which allow us to read logs from HAProxy
 haproxy_tag: alpine
 haproxy_exporter_tag: v0.9.0
 grafana_tag: latest
 prometheus_tag: v2.1.0
-cadvisor_tag: latest
 node_exporter_tag: latest
 sonarqube_tag: latest
-portainer_tag: latest
-openldap_tag: 1.2.0
-phpldapadmin_tag: 0.7.1
 gitlab_runner_tag: latest
 jenkins_tag: latest
 jenkins_slave_tag: latest
@@ -50,10 +38,6 @@ registry_tag: latest
 
 # Downloads
 downloads:
-  cadvisor:
-    enabled: "{{ allspark_monitoring.enabled }}"
-    image: "{{ cadvisor_image }}"
-    tag: "{{ cadvisor_tag }}"
   centos:
     enabled: true
     image: "{{ centos_image }}"
@@ -82,30 +66,10 @@ downloads:
     enabled: "{{ allspark_monitoring.enabled }}"
     image: "{{ node_exporter_image }}"
     tag: "{{ node_exporter_tag }}"
-  openldap:
-    enabled: "{{ allspark_ldap.enabled }}"
-    image: "{{ openldap_image }}"
-    tag: "{{ openldap_tag }}"
-  phpldapadmin:
-    enabled: "{{ allspark_ldap.enabled }}"
-    image: "{{ phpldapadmin_image }}"
-    tag: "{{ phpldapadmin_tag }}"
-  portainer:
-    enabled: true
-    image: "{{ portainer_image }}"
-    tag: "{{ portainer_tag }}"
   prometheus:
     enabled: "{{ allspark_monitoring.enabled }}"
     image: "{{ prometheus_image }}"
     tag: "{{ prometheus_tag }}"
-  rocketchat:
-    enabled: "{{ allspark_rocketchat.enabled }}"
-    image: "{{ rocketchat_image }}"
-    tag: "{{ rocketchat_tag }}"
-  rocketchat_mongodb:
-    enabled: "{{ allspark_rocketchat.enabled }}"
-    image: "{{ rocketchat_mongodb_image }}"
-    tag: "{{ rocketchat_mongodb_tag }}"
   sonarqube:
     enabled: "{{ allspark_sonarqube.enabled }}"
     image: "{{ sonarqube_image }}"

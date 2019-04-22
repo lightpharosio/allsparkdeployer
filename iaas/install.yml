@@ -8,9 +8,8 @@
     - network
     - haproxy
     - registry
-    - ldap
     - utils
-    - monitoring
+    #- monitoring
     - gitlab
-    - jenkins
-    - sonarqube
+    #- jenkins
+    #- sonarqube

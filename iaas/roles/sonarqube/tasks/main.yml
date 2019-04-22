@@ -13,6 +13,7 @@
     image: "{{ downloads.sonarqube.image }}:{{ downloads.sonarqube.tag }}"
     state: "{{ allspark_sonarqube.enabled and 'started' or 'absent'}}"
     purge_networks: true
+    dns_servers: "{{allspark_dns_server}}"
     networks:
       - name: allspark
     volumes:

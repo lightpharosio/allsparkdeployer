@@ -6,14 +6,30 @@ allspark_root_directory: /opt/allspark
 allspark_backup_directory: /opt/allspark/backup
 allspark_admin_user: admin
 
-allspark_docker_version: "18.06.0"
+# https://docs.gitlab.com/omnibus/settings/smtp.html
+allspark_smtp:
+  enabled: true
+  host: mailtrap.io
+  port: 2525
+  username: username
+  password: password
+  tls: true
+  domain: example.com
 
-allspark_ldap:
-  enabled: false
-  organization: Allspark
+# Email Settings
+allspark_email:
+  enabled: true
+  from: gitlab@example.com
+  display: Gitlab
+  reply: noreply@example.com
+
+
+allspark_docker_version: "18.06"
+
+allspark_dns_server: "8.8.8.8"
 
 allspark_monitoring:
-  enabled: true
+  enabled: false
 
 allspark_haproxy:
   ssl:
@@ -36,28 +52,21 @@ allspark_haproxy:
       organisation: myteam
       organizational_unit: myorganizational_unit
 
-
-allspark_rocketchat:
-  enabled: false
-
 allspark_gitlab:
-  enabled: false
+  enabled: true
   with_runner: false
-  lfs_enabled: true
+  lfs_enabled: false
 
 allspark_jenkins:
   enabled: false
   # Toggle default plugin import from release.
-  import_plugins: true
+  import_plugins: false
 
 allspark_sonarqube:
   enabled: false
 
 allspark_mattermost:
-  enabled: true
-
-allspark_portainer:
-  enabled: true
+  enabled: false
 
 allspark_docker_registry:
   enabled: false
