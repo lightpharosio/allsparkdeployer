@@ -1,5 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'ipaddr'
+
 
 allspark_boxes = {
   "centos7" => "actinium/centos7",
@@ -7,36 +9,42 @@ allspark_boxes = {
   "fedoraserver28" => "actinium/fedoraserver28",
   "fedoraatomic28" => "actinium/fedoraatomic28",
 }
-ecosystem_boxes = {
 
-  "keycloack" => ""
-}
 
 Vagrant.configure("2") do |config|
   $x=0
+  $IP=IPAddr.new("192.168.2.1")
   allspark_boxes.keys.each do |allspark_box|
-
+    
     config.vm.define "#{allspark_box}", primary: true do |b|
-
+      #Public Port fir accessing the allspark stacks services.
+      #8080 : Access to the different stacks
+      #8443  : For secured access (SSL)
+      #2223 : Dedicated for 22 ssh access for Gitlab sssh mode exchange
+      $IP=$IP.succ
       config.vm.network "forwarded_port", guest: 8080 + $x, host: 8080 + $x, host_ip: "127.0.0.1"
       config.vm.network "forwarded_port", guest: 8443 + $x, host: 8443 + $x, host_ip: "127.0.0.1"
       config.vm.network "forwarded_port", guest: 2223 + $x, host: 2223 + $x, host_ip: "127.0.0.1"
+      config.vm.network "private_network", ip: $IP.to_string
+      config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
       b.vm.box = allspark_boxes[allspark_box]
       b.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
+        vb.memory = "2048" 
       end
-      b.vm.provision "ansible" do |ansible|
-        ansible.verbose = "vvv"
-        ansible.playbook = "install.yml"
-        ansible.extra_vars = {
-          haproxy_http_port:  8080 + $x,
-          haproxy_https_port: 8443 + $x,
-          gitlab_ssh_port: 2223 + $x
 
-        }
-      end
+        b.vm.provision "ansible" do |ansible|
+          ansible.verbose = "vvv"
+          ansible.playbook = "install.yml"
+          ansible.extra_vars = {
+            haproxy_http_port:  8080 + $x,
+            haproxy_https_port: 8443 + $x,
+            gitlab_ssh_port: 2223 + $x
+          
+          }
+        end
+      
+      $x=$x+1
     end
-    $x=$x+1
   end
 end
