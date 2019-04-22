@@ -3,7 +3,6 @@ PIP_GLOBAL_ARGS =
 PIP_COMMAND_ARGS =
 RM = rm -f
 DOCS_SRCS := $(shell find docs/nav -name '*.md')
-BOX_MODE='PROD'
 .docs_venv:  docs/requirements.txt
 	@echo "Setting up docs virtual environment"
 	@EXIT_CODE=0
@@ -41,7 +40,6 @@ clean:
 	@(which vagrant >/dev/null && vagrant destroy -f) || echo "Vagrant not installed, skipping VM destruction."
 
 devspark-centos7:
-	@BOX_MODE='DEV'
 	vagrant up centos7 --no-provision
 
 test-centos7:
