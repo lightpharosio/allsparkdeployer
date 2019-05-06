@@ -1,16 +1,22 @@
 ---
 # defaults file for allspark
 
-allspark_root_domain: allspark.localhost
+allspark_root_domain: allspark
 allspark_root_directory: /opt/allspark
 allspark_backup_directory: /opt/allspark/backup
 allspark_admin_user: admin
 
 allspark_docker_version: "18.06.0"
 
+allspark_dns_server: 8.8.8.8
+
 allspark_ldap:
-  enabled: false
-  organization: Allspark
+  enabled: true
+  organization: allspark
+  realm: allspark_realm
+  pubkey: none
+  prikey: none
+
 
 allspark_monitoring:
   enabled: true
@@ -37,14 +43,11 @@ allspark_haproxy:
       organizational_unit: myorganizational_unit
 
 
-allspark_rocketchat:
-  enabled: false
-
 allspark_gitlab:
   enabled: false
   with_runner: false
   lfs_enabled: true
-
+  
 allspark_jenkins:
   enabled: false
   # Toggle default plugin import from release.
