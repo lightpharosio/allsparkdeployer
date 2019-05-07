@@ -25,8 +25,8 @@
 
 - name: "keycloak - Configuration"
   template:
-    src: roles/ldap/files/allspark_realm.cfg.j2
-    dest: "{{ allspark_root_directory }}/config/keycloak/allspark_realm.cfg"
+    src: ../files/allspark_realm.json.j2
+    dest: "{{ allspark_root_directory }}/config/keycloak/allspark_realm.json"
   register: config_tpl
 
 - name: Keycloak database network
@@ -76,9 +76,9 @@
     volumes:
       - "{{ allspark_root_directory }}/config/keycloak/:/home/"
     env:
-      KEYCLOAK_USER: admin
+      KEYCLOAK_USER: test_user
       KEYCLOAK_PASSWORD: admin
-      KEYCLOAK_IMPORT: "{{ allspark_root_directory }}/config/keycloak/allspark_realm.cfg"
+      KEYCLOAK_IMPORT: "/home/allspark_realm.json"
       DB_VENDOR: postgres
       DB_ADDR: keycloak_database
       DB_PORT: "5432"

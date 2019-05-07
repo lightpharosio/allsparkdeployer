@@ -1,4 +1,4 @@
-haproxy_log_requests: false
+haproxy_log_requests: true
 
 haproxy_http_port: 80
 haproxy_https_port: 443
