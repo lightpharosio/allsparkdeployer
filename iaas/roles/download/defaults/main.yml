@@ -6,7 +6,6 @@ haproxy_exporter_image: quay.io/prometheus/haproxy-exporter
 grafana_image: grafana/grafana
 prometheus_image: prom/prometheus
 node_exporter_image: prom/node-exporter
-sonarqube_image: sonarqube
 gitlab_runner_image: gitlab/gitlab-runner
 jenkins_image: actiniumio/jenkins
 jenkins_slave_image: actiniumio/jnlp-slave
@@ -27,7 +26,6 @@ haproxy_exporter_tag: v0.9.0
 grafana_tag: latest
 prometheus_tag: v2.1.0
 node_exporter_tag: latest
-sonarqube_tag: latest
 gitlab_runner_tag: latest
 jenkins_tag: latest
 jenkins_slave_tag: latest
@@ -53,7 +51,7 @@ downloads:
     image: "{{ gitlab_runner_image }}"
     tag: "{{ gitlab_runner_tag }}"
   keycloak:
-    enabled: "{{ allspark_ldap.enabled }}"
+    enabled: "{{ allspark_ldap.mode.federated_iam.enabled }}"
     image: "{{ keycloak_image }}"
     tag: "{{ keycloak_tag }}"
   grafana:
@@ -76,10 +74,6 @@ downloads:
     enabled: "{{ allspark_monitoring.enabled }}"
     image: "{{ prometheus_image }}"
     tag: "{{ prometheus_tag }}"
-  sonarqube:
-    enabled: "{{ allspark_sonarqube.enabled }}"
-    image: "{{ sonarqube_image }}"
-    tag: "{{ sonarqube_tag }}"
   haproxy:
     enabled: true
     image: "{{ haproxy_image }}"

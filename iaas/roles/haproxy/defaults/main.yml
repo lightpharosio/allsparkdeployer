@@ -12,7 +12,7 @@ haproxy_endpoints:
     # The host on which the service will be exposed
     host: "users.{{ allspark_root_domain }}"
     # An alias on the enabled feature toggle
-    enabled: "{{ allspark_ldap.enabled }}"
+    enabled: "{{ allspark_ldap.mode.federated_iam.enabled }}"
     # List of object with the following properties:
     # - mode: http|tcp
     # - port: the listening container port to expose
@@ -62,16 +62,9 @@ haproxy_endpoints:
     - mode: http
       port: 8080
 
-  - name: sonarqube
-    host: "sonarqube.{{ allspark_root_domain }}"
-    enabled: "{{ allspark_sonarqube.enabled }}"
-    backends:
-    - mode: http
-      port: 9000
-
   - name: mattermost
     enabled: "{{ allspark_mattermost.enabled }}"
     host: "mattermost.{{ allspark_root_domain }}"
     backends:
     - mode: http
-      port: 8000
+      port: 80

@@ -52,7 +52,7 @@
     path: "{{ allspark_root_directory }}/config/gitlab"
   when: allspark_gitlab.enabled
 
-- name: Gitlab config
+- name: Gitlab config File (gitlab.rb)
   template:
     src: templates/gitlab.rb.j2
     dest: "{{ allspark_root_directory }}/config/gitlab/gitlab.rb"

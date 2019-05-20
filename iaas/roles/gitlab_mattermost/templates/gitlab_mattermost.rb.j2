@@ -45,6 +45,7 @@ external_url 'http://gitlab.{{ allspark_root_domain }}'
 ## gitlab.yml configuration
 ##! Docs: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/gitlab.yml.md
 ################################################################################
+ gitlab_rails['enable'] = false
 # gitlab_rails['gitlab_ssh_host'] = 'ssh.host_example.com'
 # gitlab_rails['time_zone'] = 'UTC'
 
@@ -169,9 +170,9 @@ gitlab_rails['incoming_email_email'] = "gitlab-incoming@{{ allspark_root_domain 
 # }
 
 ### Git LFS
-{% if allspark_gitlab.lfs_enabled %}
 
-gitlab_rails['lfs_enabled'] = true
+
+gitlab_rails['lfs_enabled'] = false
 gitlab_rails['lfs_storage_path'] = "/var/opt/gitlab/gitlab-rails/shared/lfs-objects"
 # gitlab_rails['lfs_object_store_enabled'] = false # EE only
 # gitlab_rails['lfs_object_store_direct_upload'] = false
@@ -189,7 +190,7 @@ gitlab_rails['lfs_storage_path'] = "/var/opt/gitlab/gitlab-rails/shared/lfs-obje
 #   # 'path_style' => false # Use 'host/bucket_name/object' instead of 'bucket_name.host/object'
 # }
 
-{% endif %}
+
 ### GitLab uploads
 ###! Docs: https://docs.gitlab.com/ee/administration/uploads.html
 # gitlab_rails['uploads_storage_path'] = "/var/opt/gitlab/gitlab-rails/public"
@@ -223,98 +224,87 @@ gitlab_rails['lfs_storage_path'] = "/var/opt/gitlab/gitlab-rails/shared/lfs-obje
 ###! **Be careful not to break the indentation in the ldap_servers block. It is
 ###!   in yaml format and the spaces must be retained. Using tabs will not work.**
 
-{% if allspark_ldap.mode.dedicated_iam.enabled %}
- gitlab_rails['ldap_enabled'] = true
+ gitlab_rails['ldap_enabled'] = false
 
 ###! **remember to close this block with 'EOS' below**
- gitlab_rails['ldap_servers']  = YAML.load <<-'EOS'
-   main: # 'main' is the GitLab 'provider ID' of this LDAP server
-     label: "{{ allspark_ldap.mode.dedicated_iam.primary.name }}"
-     host: "{{ allspark_ldap.mode.dedicated_iam.primary.host }}"
-     port: {{ allspark_ldap.mode.dedicated_iam.primary.port }}
-     uid: "{{ allspark_ldap.mode.dedicated_iam.primary.uid }}"
-     bind_dn: "{{ allspark_ldap.mode.dedicated_iam.primary.bind }}"
-     password: "{{ allspark_ldap.mode.dedicated_iam.primary.password }}"
-     encryption: "{{ allspark_ldap.mode.dedicated_iam.primary.encryption.type}}" # "start_tls" or "simple_tls" or "plain"
-     verify_certificates: {{ allspark_ldap.mode.dedicated_iam.primary.encryption.enabled}}
-     active_directory: {{ allspark_ldap.mode.dedicated_iam.primary.encryption.active_directory }}
-     allow_username_or_email_login: true
-     lowercase_usernames: false
-     block_auto_created_users: false
-     base: {{ allspark_ldap.mode.dedicated_iam.primary.base }}
-     user_filter: ''
+# gitlab_rails['ldap_servers']  = YAML.load <<-'EOS'
+#   main: # 'main' is the GitLab 'provider ID' of this LDAP server
+#     label: ""
+#     host: ""
+#     port: 
+#     uid: ""
+#     bind_dn: ""
+#     password: ""
+#     encryption: "" # "start_tls" or "simple_tls" or "plain"
+#     verify_certificates: 
+#     active_directory: 
+#     allow_username_or_email_login: true
+#     lowercase_usernames: false
+#     block_auto_created_users: false
+#     base: 
+#     user_filter: ''
      ## EE only
-     group_base: ''
-     admin_group: ''
-     sync_ssh_keys: false
+#     group_base: ''
+#     admin_group: ''
+#     sync_ssh_keys: false
  
 
- {% if allspark_ldap.mode.dedicated_iam.secondary.enabled %}
-
-   secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
-     label: {{ allspark_ldap.mode.dedicated_iam.secondary.name }}
-     host: {{allspark_ldap.mode.dedicated_iam.secondary.host}}
-     port: {{ allspark_ldap.mode.dedicated_iam.secondary.port }}
-     uid: {{ allspark_ldap.mode.dedicated_iam.secondary.uid }}
-     bind_dn: {{ allspark_ldap.mode.dedicated_iam.secondary.bind }}
-     password: {{ allspark_ldap.mode.dedicated_iam.secondary.password }}
-     encryption: {{ allspark_ldap.mode.dedicated_iam.secondary.encryption.type}} # "start_tls" or "simple_tls" or "plain"
-     verify_certificates: {{ allspark_ldap.mode.dedicated_iam.secondary.encryption.enabled }}
-     active_directory: {{ allspark_ldap.mode.dedicated_iam.primary.encryption.active_directory }}
-     allow_username_or_email_login: false
-     lowercase_usernames: false
-     block_auto_created_users: false
-     base: {{ allspark_ldap.mode.dedicated_iam.secondary.base }}
-     user_filter: ''
+#   secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
+#     label: ""
+#     host: ""
+#     port: 
+#     uid: ""
+#     bind_dn: ""
+#     password: ""
+#     encryption: "" # "start_tls" or "simple_tls" or "plain"
+#     verify_certificates: 
+#     active_directory: 
+#     allow_username_or_email_login: true
+#     lowercase_usernames: false
+#     block_auto_created_users: false
+#     base: 
+#     user_filter: ''
      ## EE only
-     group_base: ''
-     admin_group: ''
-     sync_ssh_keys: false
- EOS
- {% else %}
- EOS
- {% endif %}
-{% endif %}
+#     group_base: ''
+#     admin_group: ''
+#     sync_ssh_keys: false
+# EOS
 
-{% if allspark_ldap.mode.federated_iam.enabled %}
 ### OmniAuth Settings
 ###! Docs: https://docs.gitlab.com/ce/integration/omniauth.html
- gitlab_rails['omniauth_enabled'] = true
- gitlab_rails['omniauth_allow_single_sign_on'] = ['{{allspark_ldap.mode.federated_iam.allow_single_sign_on}}']
+ gitlab_rails['omniauth_enabled'] = false
+# gitlab_rails['omniauth_allow_single_sign_on'] = ['']
 # gitlab_rails['omniauth_sync_email_from_provider'] = 'saml'
 # gitlab_rails['omniauth_sync_profile_from_provider'] = ['saml']
 # gitlab_rails['omniauth_sync_profile_attributes'] = ['email']
 # gitlab_rails['omniauth_auto_sign_in_with_provider'] = 'saml'
- gitlab_rails['omniauth_block_auto_created_users'] = false
- gitlab_rails['omniauth_auto_link_ldap_user'] = true
- gitlab_rails['omniauth_auto_link_saml_user'] = true
+# gitlab_rails['omniauth_block_auto_created_users'] = false
+# gitlab_rails['omniauth_auto_link_ldap_user'] = true
+# gitlab_rails['omniauth_auto_link_saml_user'] = true
 # gitlab_rails['omniauth_external_providers'] = ['twitter', 'google_oauth2']
- gitlab_rails['omniauth_providers'] = [
-   {
-     "name" => "saml",
-     "groups_attribute" => "roles",
-     "external_groups" => ['gitlab:external'],
+# gitlab_rails['omniauth_providers'] = [
+#   {
+#     "name" => "saml",
+#     "groups_attribute" => "roles",
+#     "external_groups" => ['gitlab:external'],
 #     "app_id" => "YOUR APP ID",
 #     "app_secret" => "YOUR APP SECRET",
 #     "args" => { "access_type" => "offline", "approval_prompt" => "" }
-     "args" => {
-               assertion_consumer_service_url => 'http://gitlab/users/auth/saml/callback',
-#               idp_cert_fingerprint => '49:FF:1A:6C:2C:AB:97:85:59:4F:5E:94:EA:4B:49:15:81:4B:4C:10',
-               idp_sso_target_url => 'http://keycloak:8080/auth/realms/allspark_realm/protocol/saml/clients/gitlab',
-               issuer => 'http://gitlab/',
-               attribute_statements => {
-                        first_name => ['FirstName'],
-                        last_name => ['name'],
-                        name => ['name'],
-                        username => ['uid'],
-                        email => ['email'] },
-               name_identifier_format => 'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
-             },
-   }
- ]
-{% else %}
- gitlab_rails['omniauth_enabled'] = false
-{% endif %}
+#     "args" => {
+#               assertion_consumer_service_url => '',
+#               idp_cert_fingerprint => '',
+#               idp_sso_target_url => '',
+#               issuer => '',
+#               attribute_statements => {
+#                        first_name => [''],
+#                        last_name => [''],
+#                        name => [''],
+#                        username => [''],
+#                        email => [''] },
+#               name_identifier_format => ''
+#             },
+#   }
+# ]
 
 ### Backup Settings
 ###! Docs: https://docs.gitlab.com/omnibus/settings/backups.html
@@ -416,7 +406,7 @@ gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_ssh_port }}
 ####! **Only applicable on initial setup, changing these settings after
 ####!   is created and seeded won't yield any change.**
 gitlab_rails['initial_root_password'] = File.read("/run/secrets/admin_password.txt").strip
-gitlab_rails['initial_shared_runners_registration_token'] = File.read("/run/secrets/gitlab_runner_registration_token.txt").strip
+# gitlab_rails['initial_shared_runners_registration_token'] = File.read("").strip
 
 #### Enable or disable automatic database migrations
 gitlab_rails['auto_migrate'] = true
@@ -825,7 +815,7 @@ gitlab_rails['auto_migrate'] = true
 ##! Docs: https://docs.gitlab.com/omnibus/settings/redis.html
 ################################################################################
 
-# redis['enable'] = true
+ redis['enable'] = false
 # redis['username'] = "gitlab-redis"
 # redis['maxclients'] = "10000"
 # redis['maxmemory'] = "0"
@@ -1155,19 +1145,19 @@ gitlab_pages['inplace_chroot'] = true
 ## GitLab Mattermost
 ##! Docs: https://docs.gitlab.com/omnibus/gitlab-mattermost
 ################################################################################
-{% if allspark_mattermost.enabled %}
+
  mattermost_external_url 'http://mattermost'
-{% endif %}
-mattermost['enable'] = false
-# mattermost['username'] = 'mattermost'
-# mattermost['group'] = 'mattermost'
-# mattermost['uid'] = nil
-# mattermost['gid'] = nil
-# mattermost['home'] = '/var/opt/gitlab/mattermost'
-# mattermost['database_name'] = 'mattermost_production'
+
+ mattermost['enable'] = true
+ mattermost['username'] = 'mattermost'
+ mattermost['group'] = 'mattermost'
+ mattermost['uid'] = nil
+ mattermost['gid'] = nil
+ mattermost['home'] = '/var/opt/gitlab/mattermost'
+ mattermost['database_name'] = 'mattermost_production'
 # mattermost['env'] = {}
 
-# mattermost['service_use_ssl'] = false
+ mattermost['service_use_ssl'] = false
 # mattermost['service_address'] = "127.0.0.1"
 # mattermost['service_port'] = "8065"
 # mattermost['service_site_url'] = nil
@@ -1250,13 +1240,13 @@ mattermost['enable'] = false
 # mattermost['log_file_format'] = nil
 # mattermost['log_enable_diagnostics'] = true
 
-# mattermost['gitlab_enable'] = false
-# mattermost['gitlab_id'] = "12345656"
-# mattermost['gitlab_secret'] = "123456789"
-# mattermost['gitlab_scope'] = ""
-# mattermost['gitlab_auth_endpoint'] = "http://gitlab.example.com/oauth/authorize"
-# mattermost['gitlab_token_endpoint'] = "http://gitlab.example.com/oauth/token"
-# mattermost['gitlab_user_api_endpoint'] = "http://gitlab.example.com/api/v4/user"
+ mattermost['gitlab_enable'] = {{allspark_gitlab.enabled}}
+ mattermost['gitlab_id'] = "{{allspark_gitlab.id}}"
+ mattermost['gitlab_secret'] = "allspark_gitlab.secrets"
+ mattermost['gitlab_scope'] = ""
+ mattermost['gitlab_auth_endpoint'] = "http://{{allspark_gitlab.primary_host}}/oauth/authorize"
+ mattermost['gitlab_token_endpoint'] = "http://{{allspark_gitlab.primary_host}}/oauth/token"
+ mattermost['gitlab_user_api_endpoint'] = "http://{{allspark_gitlab.primary_host}}/api/v4/user"
 
 # mattermost['aws'] = {'S3AccessKeyId' => '123', 'S3SecretAccessKey' => '123', 'S3Bucket' => 'aa', 'S3Region' => 'bb'}
 

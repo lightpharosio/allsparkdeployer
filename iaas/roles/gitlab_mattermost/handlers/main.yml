@@ -1,10 +1,10 @@
 ---
-- name: restart_gitlab
-  command: docker restart gitlab
+- name: restart_gitlab_mattermost
+  command: docker restart mattermost
 
-- name: reconfigure_gitlab
+- name: reconfigure_gitlab_mattermost
   command: >-
-    docker exec gitlab bash -c '
+    docker exec mattermost bash -c '
     set -xe;
     gitlab-ctl reconfigure;
     '
@@ -13,20 +13,20 @@
   retries: 1
   delay: 30
 
-- name: migrate_gitlab
-  command: >-
-    docker exec gitlab bash -c '
-    set -xe;
-    gitlab-rake db:migrate;
-    '
-  register: gitlab_migrate
-  until: gitlab_migrate.rc == 0
-  retries: 10
-  delay: 30
+# - name: migrate_gitlab_mattermost
+#  command: >-
+#    docker exec mattermost bash -c '
+#    set -xe;
+#    gitlab-rake db:migrate;
+#    '
+#  register: gitlab_migrate
+#  until: gitlab_migrate.rc == 0
+#  retries: 1
+#  delay: 30
 
-- name: change_gitlab_root_password
+- name: change_gitlab_mattermost_root_password
   command: |
-    docker exec gitlab bash -c '
+    docker exec mattermost bash -c '
     set -xe;
     echo "
       user = User.where(id: 1).first;
@@ -37,5 +37,5 @@
     '
   register: gitlab_root_pw_change
   until: gitlab_root_pw_change.rc == 0
-  retries: 10
+  retries: 1
   delay: 30

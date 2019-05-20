@@ -11,8 +11,9 @@
 
 - name: Register keycloak admin password
   shell: "cat {{ allspark_root_directory}}/data/secrets/admin_password_keycloakdb.txt"
-  register: allspark_admin_password_keycloakdb
+  register: allspark_admin_password_keycloakdb 
   changed_when: false
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
   tags:
   - skip_ansible_lint
 
@@ -22,16 +23,19 @@
     path: "{{ allspark_root_directory }}/config/keycloak"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
 
-- name: "keycloak - Configuration"
+- name: "keycloak - Configuration files"
   template:
     src: ../files/allspark_realm.json.j2
     dest: "{{ allspark_root_directory }}/config/keycloak/allspark_realm.json"
   register: config_tpl
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
 
 - name: Keycloak database network
   docker_network:
     name: allspark_keycloak_database
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
 
 - name: Docker volumes creation
   docker_volume:
@@ -39,13 +43,13 @@
   with_items:
     - keycloak_logs
     - keycloak_postgres_data
-  when: allspark_ldap.enabled
+  when: allspark_ldap.mode.federated_iam.enabled
 
 - name: Setup PostgreSQL keycloak service database
   docker_container:
     name: keycloak_database
     image: "{{ downloads.postgresql.image }}:{{ downloads.postgresql.tag }}"
-    state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    state: "{{ allspark_ldap.mode.federated_iam.enabled and 'started' or 'absent'}}"
     env:
       POSTGRES_USER: keycloak
       POSTGRES_DB: keycloak
@@ -61,6 +65,7 @@
     restart_policy: always
     labels:
       "heritage": "allspark"
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
 
 - name: Starting Keycloak
   docker_container:
@@ -68,7 +73,7 @@
     hostname: keycloak
     #dns_servers: "{{allspark_dns_server}}"
     image: "{{ downloads.keycloak.image }}:{{ downloads.keycloak.tag }}"
-    state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    state: "{{ allspark_ldap.mode.federated_iam.enabled and 'started' or 'absent'}}"
     purge_networks: true
     networks:
       - name: allspark
@@ -85,3 +90,4 @@
       DB_USER: keycloak
       DB_PASSWORD: admin
     restart_policy: always
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
