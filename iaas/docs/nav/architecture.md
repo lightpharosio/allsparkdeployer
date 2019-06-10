@@ -9,14 +9,11 @@
 |               | Continuous integration / delivery                     |
 |               | Work planning                                         |
 |               | Issue tracking                                        |
-| Portainer     | Container management                                  |
-| RocketChat    | Instant chat (Slack like)                             |
 | Grafana       | Monitoring                                            |
 | Prometheus    | Metrics scraping / store                              |
-| CAdvisor      | Container metrics                                     |
 | Node exporter | System metrics                                        |
 | Sonarqube     | Continuous Inspection                                 |
-| HAProxy       | Reverse proxy                                         | 
+| HAProxy       | Reverse proxy                                         |
 | Volumerize    | Backup and Restore solution for Docker volume backups |
 | MatterMost    | Default Instant Chat (Slack like)                     |
 

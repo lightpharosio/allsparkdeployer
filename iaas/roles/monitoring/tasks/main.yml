@@ -1,32 +1,9 @@
-- name: Setup CAdvisor for containers monitoring
-  docker_container:
-    name: cadvisor
-    image: "{{ downloads.cadvisor.image }}:{{ downloads.cadvisor.tag }}"
-    state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
-    volumes: >-
-      [
-        {%- if (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}
-        {# CentOS/RHEL specific mount point : https://github.com/google/cadvisor/blob/master/docs/running.md#centos-fedora-and-rhel #}
-        "/cgroup:/cgroup:ro",
-        {%- endif -%}
-        "/sys:/sys:ro",
-        "/var/lib/docker/:/var/lib/docker:ro",
-        "/var/run:/var/run:rw",
-        "/:/rootfs:ro"
-      ]
-    purge_networks: true
-    privileged: "{%- if not (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}false{%- else -%}true{%- endif -%}"
-    networks:
-      - name: allspark
-    restart_policy: always
-    labels:
-      "heritage": "allspark"
-
 - name: HAProxy exporter
   docker_container:
     name: haproxy_exporter
     image: "{{ downloads.haproxy_exporter.image }}:{{ downloads.haproxy_exporter.tag }}"
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    dns_servers: "{{allspark_dns_server}}"
     purge_networks: true
     user: "1000:1000"
     command: --haproxy.scrape-uri="http://haproxy:9000/metrics?stats;csv"
@@ -41,6 +18,7 @@
     name: node-exporter
     image: "{{ downloads.node_exporter.image }}:{{ downloads.node_exporter.tag }}"
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -81,6 +59,7 @@
     name: prometheus
     image: "{{ downloads.prometheus.image }}:{{ downloads.prometheus.tag }}"
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "{{ allspark_root_directory }}/config/prometheus/:/etc/prometheus/"
       - allspark_prometheus_data:/prometheus
@@ -112,6 +91,7 @@
     name: prometheus_alertmanager
     image: "{{ downloads.prometheus_alertmanager.image }}:{{ downloads.prometheus_alertmanager.tag }}"
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "{{ allspark_root_directory }}/config/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml"
       - allspark_alertmanager_data:/alertmanager
@@ -139,6 +119,7 @@
     name: grafana
     image: "{{ downloads.grafana.image }}:{{ downloads.grafana.tag }}"
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - allspark_grafana_data:/var/lib/grafana
       - "{{ allspark_root_directory }}/config/grafana/provisioning/:/etc/grafana/provisioning/"

@@ -6,9 +6,16 @@ allspark_root_directory: /opt/allspark
 allspark_backup_directory: /opt/allspark/backup
 allspark_admin_user: admin
 
-allspark_docker_version: "18.06.0"
+# https://docs.gitlab.com/omnibus/settings/smtp.html
+allspark_smtp:
+  enabled: true
+  host: mailtrap.io
+  port: 2525
+  username: username
+  password: password
+  tls: true
+  domain: example.com
 
-allspark_dns_server: 8.8.8.8
 allspark_proxy: 'none'
 
 # Currently 2 modes of IAM integration with(in) the forge is available:
@@ -68,9 +75,20 @@ allspark_ldap:
      allow_single_sign_on: saml
      block_auto_created_users: false
      auto_link_saml_user: true
+# Email Settings
+allspark_email:
+  enabled: true
+  from: gitlab@example.com
+  display: Gitlab
+  reply: noreply@example.com
+
+
+allspark_docker_version: "18.06"
+
+allspark_dns_server: "8.8.8.8"
 
 allspark_monitoring:
-  enabled: true
+  enabled: false
 
 allspark_haproxy:
   ssl:
@@ -109,7 +127,7 @@ allspark_jenkins:
   primary_host: tbd
   secondary_host: tbd
   # Toggle default plugin import from release.
-  import_plugins: true
+  import_plugins: false
 
 allspark_sonarqube:
   enabled: false

@@ -7,10 +7,10 @@
     - { role: download, tags: [ "download", "prepare" ] }
     - network
     - haproxy
-   # - registry
+    - registry
     - ldap
-   # - gitlab_mattermost
-   # - monitoring
-   # - gitlab
+    - gitlab_mattermost
+    - monitoring
+    - gitlab
     - jenkins
-   # - sonarqube
+    - sonarqube

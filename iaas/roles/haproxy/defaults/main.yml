@@ -5,19 +5,26 @@ haproxy_https_port: 443
 gitlab_ssh_port: 2223
 
 haproxy_endpoints:
-  -
     # Runtime name of the container
     # (defined by the `docker_container` module `name` parameter)
+<<<<<<< HEAD
     name: "keycloak"
     # The host on which the service will be exposed
     host: "users.{{ allspark_root_domain }}"
     # An alias on the enabled feature toggle
     enabled: "{{ allspark_ldap.mode.federated_iam.enabled }}"
+=======
+
+    # The host on which the service will be exposed
+
+    # An alias on the enabled feature toggle
+
+>>>>>>> master
     # List of object with the following properties:
     # - mode: http|tcp
     # - port: the listening container port to expose
     # - exposed_port: The port exposed on the host machine (only for tcp mode)
-    backends:
+
       # # Sample HTTP backend
       # - port: 8080
       #   mode: http
@@ -25,8 +32,12 @@ haproxy_endpoints:
       # - port: 6578
       #   mode: tcp
       #   exposed_port: 6578
+<<<<<<< HEAD
       - mode: http
         port: 8080
+=======
+
+>>>>>>> master
 
   - name: prometheus
     host: "metrics.{{ allspark_root_domain }}"
@@ -62,6 +73,16 @@ haproxy_endpoints:
     - mode: http
       port: 8080
 
+<<<<<<< HEAD
+=======
+  - name: sonarqube
+    host: "sonarqube.{{ allspark_root_domain }}"
+    enabled: "{{ allspark_sonarqube.enabled }}"
+    backends:
+    - mode: http
+      port: 9000
+
+>>>>>>> master
   - name: mattermost
     enabled: "{{ allspark_mattermost.enabled }}"
     host: "mattermost.{{ allspark_root_domain }}"

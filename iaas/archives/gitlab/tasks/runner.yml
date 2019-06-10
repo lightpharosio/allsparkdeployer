@@ -21,6 +21,7 @@
     state: "{{ allspark_gitlab.enabled and allspark_gitlab.with_runner and 'started' or 'absent'}}"
     image: "{{ downloads.gitlab_runner.image }}:{{ downloads.gitlab_runner.tag }}"
     hostname: "gitlab_runner.{{ allspark_root_domain }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes:
       - "allspark_gitlab_runner:/etc/gitlab-runner"
       - "/var/run/docker.sock:/var/run/docker.sock"

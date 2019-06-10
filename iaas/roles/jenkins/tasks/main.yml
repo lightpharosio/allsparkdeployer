@@ -53,6 +53,7 @@
       - name: allspark
     env:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    dns_servers: "{{allspark_dns_server}}"
     volumes: >-
       [
         "allspark_jenkins_home:/var/jenkins_home",
@@ -81,6 +82,7 @@
       JENKINS_AGENT_WORKDIR: /home/jenkins/agent
       JENKINS_USER: "{{ allspark_jenkins_user.stdout }}"
       JENKINS_PASSWORD: "{{ allspark_jenkins_password.stdout }}"
+    dns_servers: "{{allspark_dns_server}}"
     volumes: >-
       [
         {% if jenkins_docker_socket_mount %}
