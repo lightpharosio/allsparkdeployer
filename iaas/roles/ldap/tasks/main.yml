@@ -1,0 +1,93 @@
+---
+- name: Test admin keycloak db password existence
+  stat: path="{{ allspark_root_directory}}/data/secrets/admin_password_keycloakdb.txt"
+  register: admin_password_keycloak_file
+
+- name: Generate random admin keycloak db password
+  shell: "echo -n $(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c26) > {{ allspark_root_directory}}/data/secrets/admin_password_keycloakdb.txt"
+  when: not admin_password_keycloak_file.stat.exists
+  tags:
+  - skip_ansible_lint
+
+- name: Register keycloak admin password
+  shell: "cat {{ allspark_root_directory}}/data/secrets/admin_password_keycloakdb.txt"
+  register: allspark_admin_password_keycloakdb 
+  changed_when: false
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
+  tags:
+  - skip_ansible_lint
+
+- name: keycloak config directory
+  file:
+    state: directory
+    path: "{{ allspark_root_directory }}/config/keycloak"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
+
+- name: "keycloak - Configuration files"
+  template:
+    src: ../files/allspark_realm.json.j2
+    dest: "{{ allspark_root_directory }}/config/keycloak/allspark_realm.json"
+  register: config_tpl
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
+
+- name: Keycloak database network
+  docker_network:
+    name: allspark_keycloak_database
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
+
+- name: Docker volumes creation
+  docker_volume:
+    name: "allspark_{{ item }}"
+  with_items:
+    - keycloak_logs
+    - keycloak_postgres_data
+  when: allspark_ldap.mode.federated_iam.enabled
+
+- name: Setup PostgreSQL keycloak service database
+  docker_container:
+    name: keycloak_database
+    image: "{{ downloads.postgresql.image }}:{{ downloads.postgresql.tag }}"
+    state: "{{ allspark_ldap.mode.federated_iam.enabled and 'started' or 'absent'}}"
+    env:
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+      POSTGRES_PASSWORD: admin
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    purge_networks: true
+    user: postgres
+    networks:
+      - name: allspark_keycloak_database
+    #dns_servers: "{{allspark_dns_server}}"
+    volumes:
+      - "allspark_keycloak_postgres_data:/var/lib/postgresql/data"
+    restart_policy: always
+    labels:
+      "heritage": "allspark"
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled
+
+- name: Starting Keycloak
+  docker_container:
+    name: keycloak
+    hostname: keycloak
+    #dns_servers: "{{allspark_dns_server}}"
+    image: "{{ downloads.keycloak.image }}:{{ downloads.keycloak.tag }}"
+    state: "{{ allspark_ldap.mode.federated_iam.enabled and 'started' or 'absent'}}"
+    purge_networks: true
+    networks:
+      - name: allspark
+      - name: allspark_keycloak_database
+    volumes:
+      - "{{ allspark_root_directory }}/config/keycloak/:/home/"
+    env:
+      KEYCLOAK_USER: test_user
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: "/home/allspark_realm.json"
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak_database
+      DB_PORT: "5432"
+      DB_USER: keycloak
+      DB_PASSWORD: admin
+    restart_policy: always
+  when: not allspark_ldap.mode.dedicated_iam.enabled and allspark_ldap.mode.federated_iam.enabled

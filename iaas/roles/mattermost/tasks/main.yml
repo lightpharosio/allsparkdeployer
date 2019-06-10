@@ -86,7 +86,7 @@
   register: mattermost_template
   when: allspark_mattermost.enabled
 
-## Mattermost change the contents of it's configuration file at runtime
+## Mattermost change the contents of its configuration file at runtime
 ## To avoid indepotency break using only the template module on this file,
 ## we first copy it to config_i.json and then override runtime config
 ## only if this task changed.
@@ -113,7 +113,7 @@
 - name: Setup PostgreSQL chat service database
   docker_container:
     name: mattermost_database
-    image: "{{ downloads.mattermost_postgresql.image }}:{{ downloads.mattermost_postgresql.tag }}"
+    image: "{{ downloads.postgresql.image }}:{{ downloads.postgresql.tag }}"
     state: "{{ allspark_mattermost.enabled and 'started' or 'absent'}}"
     env:
       POSTGRES_USER: "postgres"

@@ -1,1 +1,0 @@
-{"nfs":{"/vagrant":{"type":"nfs","guestpath":"/vagrant","hostpath":"/Users/david/Documents/Travail/MyDevs/allspark/iaas","disabled":false,"__vagrantfile":true,"map_uid":501,"map_gid":20,"nfs_udp":true,"nfs_version":3,"uuid":"2391449395"}}}

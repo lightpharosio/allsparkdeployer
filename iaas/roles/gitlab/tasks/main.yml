@@ -15,7 +15,25 @@
   become: yes
 
 
+<<<<<<< HEAD
+- name: Gitlab root password hash
+  shell: "echo {{ root_password_sha256.stat.checksum }} > {{ allspark_root_directory }}/data/gitlab/root_password_hash.txt"
+  when: allspark_gitlab.enabled and (not gitlab_root_password_file.stat.exists or root_password_sha256.stat.checksum != gitlab_root_password_hash.stdout)
+  changed_when: true
+  notify:
+    - restart_gitlab
+    - change_gitlab_root_password
+
+- name: Gitlab config directory
+  file:
+    state: directory
+    path: "{{ allspark_root_directory }}/config/gitlab"
+  when: allspark_gitlab.enabled
+
+- name: Gitlab config File (gitlab.rb)
+=======
 - name: Copy gitlab.rb config
+>>>>>>> master
   template:
     src: gitlab.rb.j2
     dest: "{{ allspark_root_directory }}/config/gitlab/gitlab.rb"

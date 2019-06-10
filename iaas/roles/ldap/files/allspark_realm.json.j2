@@ -1,0 +1,61 @@
+{
+    "realm": "{{allspark_ldap.mode.dedicated_iam.organization}}",
+    "enabled": true,
+    "registrationAllowed": true,
+    "requiredCredentials": [ "password" ],
+    "users" : [
+        {
+            "username" : "user",
+            "enabled": true,
+            "email" : "sample-user@example",
+            "firstName": "Sample",
+            "lastName": "User",
+            "credentials" : [
+                { "type" : "password",
+                  "value" : "password" }
+            ],
+            "realmRoles": [ "user" ],
+            "clientRoles": {
+                "account": ["view-profile", "manage-account"]
+            }
+        }
+    ],
+    "roles" : {
+        "realm" : [
+            {
+                "name": "user",
+                "description": "User privileges"
+            },
+            {
+                "name": "admin",
+                "description": "Administrator privileges"
+            }
+        ]
+    },
+    "scopeMappings": [
+        {
+            "client": "js-console",
+            "roles": ["user"]
+        }
+    ],
+    "clients": [
+        {
+            "clientId": "js-console",
+            "enabled": true,
+            "publicClient": true,
+            "baseUrl": "/js-console",
+            "redirectUris": [
+                "/js-console/*"
+            ],
+            "webOrigins": []
+        }
+    ],
+    "clientScopeMappings": {
+        "account": [
+            {
+                "client": "js-console",
+                "roles": ["view-profile"]
+            }
+        ]
+    }
+}
