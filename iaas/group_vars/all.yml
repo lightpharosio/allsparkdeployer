@@ -97,13 +97,15 @@ allspark_gitlab:
   enabled: true
   primary_host: gitlab
   secondary_host: tbd
+  account_mattermost_token: 'MATTERMOST-TOKEN'
+  account_jenkins_token:  ''
   id: ''
   secrets: ''
   with_runner: false
   lfs_enabled: true
   
 allspark_jenkins:
-  enabled: false
+  enabled: true
   primary_host: tbd
   secondary_host: tbd
   # Toggle default plugin import from release.

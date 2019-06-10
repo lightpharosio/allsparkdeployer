@@ -9,8 +9,8 @@
     - haproxy
    # - registry
     - ldap
-    - gitlab_mattermost
+   # - gitlab_mattermost
    # - monitoring
-    - gitlab
-   # - jenkins
+   # - gitlab
+    - jenkins
    # - sonarqube

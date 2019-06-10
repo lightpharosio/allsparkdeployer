@@ -1,0 +1,4 @@
+---
+
+#- name: copy_configfile
+#  cmd: cp {{allspark_root_directory}}/config/jenkins/config.xml /var/lib/docker/allspark_jenkins_data/_data/
