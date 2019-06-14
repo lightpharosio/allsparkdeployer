@@ -47,7 +47,7 @@ For offline install, the images configuration must be the same on both end.
 
 If you are on a migration see the operation pages
 
-###Online install
+### Online install
 
 Change the hosts file to point to the allspark machine.
 
@@ -55,18 +55,20 @@ Change the hosts file to point to the allspark machine.
 ansible-playbook -i hosts install.yml
 ~~~~
 
+<aside class="warning">
 >Warning
 >Before using the playbook, you need to be sure to have your deployment user in the wheel groups
 
->At this point, you will be able to see component show up along with their access URL at ingress.YOUR_ROOT_DOMAIN.
+At this point, you will be able to see component show up along with their access URL at ingress.YOUR_ROOT_DOMAIN.
+</aside>
 
-###Offline install
+### Offline install
 
 0. On the online control machine
 
->Note
->Change the allspark_release_destination and allspark_release_tmp_directory to point to somwhere with at least 10Go of free space
-
+<aside class="notice">
+Change the allspark_release_destination and allspark_release_tmp_directory to point to somwhere with at least 10Go of free space
+</aside>
 
 ~~~~
 ansible-playbook -i hosts release.yml
@@ -84,11 +86,11 @@ it will generate a .tar.gz file at `allspark_release_destination`. This file nee
 ansible-playbook -i hosts setup.yml
 ansible-playbook -i hosts install.yml
 ~~~~
+<aside class="warning">
+This playbook does not setup the system yet. The release is packaged along with CentOS RPM dependencies as well as pip wheels, but you will however have to install them yourself.
+</aside>
 
->Warning
->This playbook does not setup the system yet. The release is packaged along with CentOS RPM dependencies as well as pip wheels, but you will however have to install them yourself.
-
-###Hosts
+### Hosts
 
 1. Edit the file hosts to fit with your needs, like:
 2. Define the ansible_user (In this example we use a account named allspark)
@@ -98,7 +100,7 @@ ansible-playbook -i hosts install.yml
 localhost ansible_connection=ssh ansible_user=allspark
 ~~~~
 
-###Group_vars
+### Group_vars
 
 1. Edit the file group_vars/all.yml to fit with your needs, like:
 2. The allspark_root_domain to use your domain name (each component will be exposed as a subdomain).
@@ -110,7 +112,7 @@ allspark_monitoring:
   enabled: true
 ~~~~
 
-###HTTPS
+### HTTPS
 
 In order to provide HTTPS, you can either :
 
@@ -119,8 +121,9 @@ In order to provide HTTPS, you can either :
 
 You can also do a mix of both, imported certificates will be picked over generated ones, allowing you to import certificates for some of the endpoints and let Allspark generate the missing ones.
 
->Note
->For wildcard and UCC certificates signing multiple domains, simply copy the file (or create a symbolic link pointing to it) to mirror the new endpoint e.g:
+<aside class="notice">
+For wildcard and UCC certificates signing multiple domains, simply copy the file (or create a symbolic link pointing to it) to mirror the new endpoint e.g:
+</aside>
 
 ~~~~
 cp infra.allspark.localhost.pem chat.allspark.localhost
@@ -128,8 +131,9 @@ cp infra.allspark.localhost.pem chat.allspark.localhost
 
 ###Downloads
 
->Note
->You can customize the image or tag for a component by overriding the component_image and component_tag, using either :
+<aside class="notice">
+You can customize the image or tag for a component by overriding the component_image and component_tag, using either :
+</aside>
 
 * Ansible extra vars
 * Add those variables to your group_vars/all.yml file.
