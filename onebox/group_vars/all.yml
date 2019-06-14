@@ -6,7 +6,7 @@ allspark_root_directory: /opt/allspark
 allspark_backup_directory: /opt/allspark/backup
 allspark_admin_user: admin
 
-# https://docs.gitlab.com/omnibus/settings/smtp.html
+# SMTP integration
 allspark_smtp:
   enabled: true
   host: mailtrap.io

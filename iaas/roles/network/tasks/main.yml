@@ -1,3 +1,0 @@
-- name: Docker network creation
-  docker_network:
-    name: "allspark"
