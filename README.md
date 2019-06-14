@@ -37,8 +37,6 @@ Allspark targets 3 types of implementation accross 3 subproducts:
 
 ## Contributing
 
-## Development
-
 ### Ansible Lint (Not Yet implemented)
 You need to edit `.circleci/.config.yml` if you add a main core playbook for allspark
 
