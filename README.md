@@ -5,7 +5,7 @@
 Allspark is a Docker based developer toolbox fully automated in term of configuration and parameterization between the different developpment tool stacks.
 
 <aside class="notice">
-The current Readme provides information the information bellow:
+The current Readme provides the information bellow:
   
 * About AllSpark
 * Contributing
