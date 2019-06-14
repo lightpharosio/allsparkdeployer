@@ -7,14 +7,14 @@ Allspark is a Docker based developer toolbox fully automated in term of configur
 <aside class="notice">
 The current Readme provides information the information bellow:
   
-** About AllSpark
-** Contributing
+* About AllSpark
+* Contributing
   
 Information concerning:
 
-** Installation and Configuration
-** Design
-** Product scope are available on the GitHUb [Wiki](https://github.com/lightpharosio/allspark_iaas_integration/wiki).
+* Installation and Configuration
+* Design
+* Product scope are available on the GitHUb [Wiki](https://github.com/lightpharosio/allspark_iaas_integration/wiki).
 </aside>
 
 
