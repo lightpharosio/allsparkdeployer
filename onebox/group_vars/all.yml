@@ -75,17 +75,9 @@ allspark_ldap:
      allow_single_sign_on: saml
      block_auto_created_users: false
      auto_link_saml_user: true
-# Email Settings
-allspark_email:
-  enabled: true
-  from: gitlab@example.com
-  display: Gitlab
-  reply: noreply@example.com
 
 
 allspark_docker_version: "18.06"
-
-allspark_dns_server: "8.8.8.8"
 
 allspark_monitoring:
   enabled: false
@@ -115,12 +107,14 @@ allspark_gitlab:
   enabled: true
   primary_host: gitlab
   secondary_host: tbd
+  mattermost: false
   account_mattermost_token: 'MATTERMOST-TOKEN'
   account_jenkins_token:  ''
   id: ''
   secrets: ''
+  gitlab_force_restart: true
   with_runner: false
-  lfs_enabled: true
+  lfs_enabled: false
   
 allspark_jenkins:
   enabled: true
@@ -131,11 +125,6 @@ allspark_jenkins:
 
 allspark_sonarqube:
   enabled: false
-
-allspark_mattermost:
-  enabled: true
-  primary_host: tbd
-  secondary_host: tbd
 
 allspark_docker_registry:
   enabled: false

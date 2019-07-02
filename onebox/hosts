@@ -1,6 +1,2 @@
 [all]
-<<<<<<< HEAD
-localhost
-=======
 localhost ansible_connection=ssh ansible_user=vagrant
->>>>>>> master
