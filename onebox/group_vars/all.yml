@@ -32,7 +32,9 @@ allspark_ldap:
      enabled: true
      # "myldap" value deployed a dedicated openldap container ready and plugged with each forge componenets
      # "external" value intégrate all the forge components with an external LDAP directory.
-     directory_type: external
+     directory_type: myldap
+     myldap:
+      enabled: true
      primary:
       enabled: true
       name: synology
