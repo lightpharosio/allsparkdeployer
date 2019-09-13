@@ -2,13 +2,13 @@
   hosts: all
   roles:
     - system
-    - local_datas
+    - local_data
     - pip
     - { role: download, tags: [ "download", "prepare" ] }
     - network
     - haproxy
     - registry
-    - ldap
+#    - ldap
     - gitlab_mattermost
     - monitoring
     - gitlab
