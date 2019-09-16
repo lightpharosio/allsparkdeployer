@@ -1,0 +1,3 @@
+- name: restart_jenkins
+  command: >-
+    docker restart jenkins

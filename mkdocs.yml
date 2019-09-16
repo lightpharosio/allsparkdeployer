@@ -1,0 +1,43 @@
+site_name: Allspark
+site_description: The developper toolbox.
+site_author: Actinium team
+theme:
+  name: 'material'
+  palette:
+    primary: 'blue grey'
+    accent: 'pink'
+  # logo: assets/images/logo_128.ico
+  # favicon: assets/images/favicon.ico
+
+docs_dir: ./docs/nav
+nav:
+  - Index: index.md
+  - Install: install.md
+  - Configuration: configuration.md
+  - Roadmap: roadmap.md
+  - Architecture: architecture.md
+  - Operation: operation.md
+  - Troubleshooting: troubleshooting.md
+
+repo_url: https://github.com/actiniumio/allspark
+markdown_extensions:
+  # For notes and stuff: http://squidfunk.github.io/mkdocs-material/extensions/admonition/
+  - admonition
+  # Noices code blocks : http://squidfunk.github.io/mkdocs-material/extensions/codehilite/
+  - codehilite
+
+  - pymdownx.superfences
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde

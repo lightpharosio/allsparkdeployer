@@ -1,0 +1,63 @@
+---
+# defaults file for allspark
+
+allspark_root_domain: allspark
+allspark_root_directory: /opt/allspark
+allspark_backup_directory: /opt/allspark/backup
+allspark_admin_user: admin
+
+allspark_docker_version: "18.06.0"
+
+allspark_ldap:
+  enabled: false
+  organization: Allspark
+
+allspark_monitoring:
+  enabled: true
+
+allspark_haproxy:
+  ssl:
+    enabled: false
+    # If SSL is enabled, you can set the directory from which
+    # endpoints certificates will be imported with this variable.
+    # Files in the local directory should be PEM formatted certificates
+    # named like their endpoint (e.g: `infra.allspark.localhost.pem`)
+    certificates_directory:
+    # If selfsigned certificates are enabled, any certificate missing
+    # for an endpoint will be created on the fly.
+    # If selfsigned is disabled and a certificate is missing, the
+    # install won't be able to complete successfully.
+    selfsigned:
+      enabled: true
+      # For example country: FR
+      country: FR
+      state: Haute-Garonne
+      location: Toulouse
+      organisation: CRE
+      organizational_unit: TZIT
+
+
+allspark_gitlab:
+  enabled: true
+  with_runner: false
+  lfs_enabled: false
+
+allspark_jenkins:
+  enabled: true
+  # Toggle default plugin import from release.
+  import_plugins: true
+
+allspark_sonarqube:
+  enabled: false
+
+allspark_backup:
+  image: blacklabelops/volumerize
+
+allspark_mattermost:
+  enabled: true
+
+
+### Release configuration
+# Should not be here
+allspark_release_tmp_directory: /opt/allspark/release
+allspark_release_destination: /opt/allspark.tar.gz

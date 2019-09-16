@@ -1,0 +1,106 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors/>
+  <version>2.175</version>
+  <installStateName>RUNNING</installStateName>
+  <numExecutors>0</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy">
+    <roleMap type="globalRoles">
+      <role name="admin" pattern=".*">
+        <permissions>
+          <permission>hudson.model.View.Delete</permission>
+          <permission>hudson.model.Computer.Connect</permission>
+          <permission>hudson.model.Run.Delete</permission>
+          <permission>hudson.model.Computer.Create</permission>
+          <permission>hudson.model.Hudson.UploadPlugins</permission>
+          <permission>hudson.model.View.Configure</permission>
+          <permission>hudson.model.Computer.Build</permission>
+          <permission>hudson.model.Hudson.ConfigureUpdateCenter</permission>
+          <permission>hudson.model.Item.Configure</permission>
+          <permission>hudson.model.Hudson.Administer</permission>
+          <permission>hudson.model.Item.Cancel</permission>
+          <permission>hudson.model.Item.Read</permission>
+          <permission>hudson.model.Computer.Delete</permission>
+          <permission>hudson.model.Item.Build</permission>
+          <permission>hudson.scm.SCM.Tag</permission>
+          <permission>hudson.model.Item.Discover</permission>
+          <permission>hudson.model.Hudson.Read</permission>
+          <permission>hudson.model.Item.Create</permission>
+          <permission>hudson.model.Item.Workspace</permission>
+          <permission>hudson.model.View.Read</permission>
+          <permission>hudson.model.Hudson.RunScripts</permission>
+          <permission>hudson.model.View.Create</permission>
+          <permission>hudson.model.Item.Delete</permission>
+          <permission>hudson.model.Computer.Configure</permission>
+          <permission>hudson.model.Computer.Disconnect</permission>
+          <permission>hudson.model.Run.Update</permission>
+        </permissions>
+        <assignedSIDs>
+          <sid>admin</sid>
+        </assignedSIDs>
+      </role>
+      <role name="authenticated" pattern=".*">
+        <permissions>
+          <permission>hudson.model.Hudson.Read</permission>
+          <permission>hudson.model.View.Delete</permission>
+          <permission>hudson.model.Item.Create</permission>
+          <permission>hudson.model.Item.Workspace</permission>
+          <permission>hudson.model.View.Configure</permission>
+          <permission>hudson.model.View.Read</permission>
+          <permission>hudson.model.Item.Configure</permission>
+          <permission>hudson.model.View.Create</permission>
+          <permission>hudson.model.Item.Cancel</permission>
+          <permission>hudson.model.Item.Read</permission>
+          <permission>hudson.model.Item.Delete</permission>
+          <permission>hudson.model.Item.Build</permission>
+          <permission>hudson.model.Item.Discover</permission>
+        </permissions>
+        <assignedSIDs>
+          <sid>authenticated</sid>
+        </assignedSIDs>
+      </role>
+    </roleMap>
+  </authorizationStrategy>
+  {% if allspark_ldap.mode.dedicated_iam.enabled %}
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>true</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
+    <server>{{allspark_ldap.mode.dedicated_iam.primary.host}}</server>
+    <rootDN>{{allspark_ldap.mode.dedicated_iam.primary.base}}</rootDN>
+    <inhibitInferRootDN>false</inhibitInferRootDN>
+    <userSearchBase>{{allspark_ldap.mode.dedicated_iam.primary.base}}</userSearchBase>
+    <userSearch>uid={0}</userSearch>
+    <managerDN>{{allspark_ldap.mode.dedicated_iam.primary.bind}}</managerDN>
+    <managerPassword>{{allspark_ldap.mode.dedicated_iam.primary.password}}</managerPassword>
+  </securityRealm>
+  {% endif %}
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULL_NAME}</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds/>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>all</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+  </views>
+  <primaryView>all</primaryView>
+  <slaveAgentPort>9489</slaveAgentPort>
+  <label></label>
+  <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">
+    <excludeClientIPFromCrumb>true</excludeClientIPFromCrumb>
+  </crumbIssuer>
+  <nodeProperties/>
+  <globalNodeProperties/>
+  <noUsageStatistics>true</noUsageStatistics>
+</hudson>

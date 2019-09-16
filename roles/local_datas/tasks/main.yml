@@ -1,0 +1,45 @@
+- name: allspark_root_directory creation
+  file:
+    state: directory
+    path: "{{ allspark_root_directory }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
+  become: yes
+
+- name: allspark data/config directory creation
+  file:
+    state: directory
+    path: "{{ allspark_root_directory }}/{{item}}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
+  with_items:
+    - config
+    - data
+
+- name: allspark secrets directory creation
+  file:
+    state: directory
+    path: "{{ allspark_root_directory }}/{{item}}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0700
+  with_items:
+    - data/secrets
+
+- name: Test admin user existence
+  stat: path="{{ allspark_root_directory}}/data/secrets/admin_user.txt"
+  register: admin_username_file
+
+- name: Generate admin username
+  shell: "echo '{{ allspark_admin_user }}' > {{ allspark_root_directory}}/data/secrets/admin_user.txt"
+  when: not admin_username_file.stat.exists
+
+- name: Test admin password existence
+  stat: path="{{ allspark_root_directory}}/data/secrets/admin_password.txt"
+  register: admin_password_file
+
+- name: Generate random admin password
+  shell: "echo -n $(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c26) > {{ allspark_root_directory}}/data/secrets/admin_password.txt"
+  when: not admin_password_file.stat.exists

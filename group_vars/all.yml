@@ -1,0 +1,137 @@
+---
+# defaults file for allspark
+
+allspark_root_domain: allspark
+allspark_root_directory: /opt/allspark
+allspark_backup_directory: /opt/allspark/backup
+allspark_admin_user: admin
+
+# SMTP integration
+allspark_smtp:
+  enabled: true
+  host: mailtrap.io
+  port: 2525
+  username: username
+  password: password
+  tls: true
+  domain: example.com
+
+allspark_proxy: 'none'
+
+# Currently 2 modes of IAM integration with(in) the forge is available:
+# 
+# *** Dedicated IAM in mode "myldap"
+# *** Dedicated IAM in mode "external"
+# NB: A third mode based on directory federation architecture will be provided in allspark.
+# This last solution proposed to deploy keycloak opensource IDP. The current integration is not stable. 
+allspark_ldap:
+  
+  mode:
+    # Based on deployment of openldap server inside allspark platform. 
+    dedicated_iam:
+     enabled: false
+     # "myldap" value deployed a dedicated openldap container ready and plugged with each forge componenets
+     # "external" value intégrate all the forge components with an external LDAP directory.
+     directory_type: external
+     primary:
+      enabled: true
+      name: synology
+      host: 192.168.1.35
+      port: 389
+      uid: uid
+      base: DC=homelab
+      bind: uid=allspark,CN=users,DC=homelab
+      password: Allspark30
+      encryption:
+       enabled: false
+       type: plain
+       # Specifies the SSL version for OpenSSL to use, if the OpenSSL default
+       # is not appropriate.
+       #
+       #   Example: 'TLSv1_1'
+       #
+       ssl_version: 'TLSv1_1'
+       # LDAPS verify CA,
+       active_directory: false
+     secondary:
+      enabled: false
+      name: ''
+      host: ''
+      port: ''
+      uid: ''
+      base: ''
+      bind: ''
+      password: ''
+      encryption:
+       enabled: false
+       type: ''
+       ssl_version: ''
+       active_directory: false
+    # Federation IAM using keycloak to federate multiple Directories
+    federated_iam:
+     enabled: false
+     pubkey: none
+     prikey: none
+     allow_single_sign_on: saml
+     block_auto_created_users: false
+     auto_link_saml_user: true
+
+
+allspark_docker_version: "18.06"
+
+allspark_monitoring:
+  enabled: true
+
+allspark_haproxy:
+  ssl:
+    enabled: false
+    # If SSL is enabled, you can set the directory from which
+    # endpoints certificates will be imported with this variable.
+    # Files in the local directory should be PEM formatted certificates
+    # named like their endpoint (e.g: `infra.allspark.localhost.pem`)
+    certificates_directory:
+    # If selfsigned certificates are enabled, any certificate missing
+    # for an endpoint will be created on the fly.
+    # If selfsigned is disabled and a certificate is missing, the
+    # install won't be able to complete successfully.
+    selfsigned:
+      enabled: false
+      # For example country: FR
+      country: XX
+      state: state
+      location: city
+      organisation: myteam
+      organizational_unit: myorganizational_unit
+
+allspark_gitlab:
+  enabled: true
+  primary_host: gitlab
+  secondary_host: tbd
+  mattermost: false
+  account_mattermost_token: 'MATTERMOST-TOKEN'
+  account_jenkins_token:  ''
+  id: ''
+  secrets: ''
+  gitlab_force_restart: true
+  with_runner: false
+  lfs_enabled: false
+  
+allspark_jenkins:
+  enabled: true
+  primary_host: tbd
+  secondary_host: tbd
+  # Toggle default plugin import from release.
+  import_plugins: false
+
+allspark_sonarqube:
+  enabled: false
+
+allspark_docker_registry:
+  enabled: false
+
+allspark_mattermost:
+  enabled: true
+### Release configuration
+# Should not be here
+allspark_release_tmp_directory: /opt/allspark/release
+allspark_release_destination: /opt/allspark.tar.gz
